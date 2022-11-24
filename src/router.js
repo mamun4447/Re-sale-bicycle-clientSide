@@ -3,6 +3,7 @@ import Main from "./Layouts/Main";
 import LogIn from "./pages/Authentication/LogIn";
 import SignUp from "./pages/Authentication/SignUp";
 import Home from "./pages/HomePages/Home";
+import Products from "./pages/Products/Products";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,12 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <SignUp />,
+      },
+      {
+        path: "/categories/:id",
+        element: <Products />,
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/products/${params.id}`),
       },
     ],
   },

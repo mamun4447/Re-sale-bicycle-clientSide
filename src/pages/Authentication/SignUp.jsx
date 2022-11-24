@@ -18,18 +18,19 @@ const SignUp = () => {
   const [error, setError] = useState("");
   const [imageUrl, setImageUrl] = useState("");
 
-  const imageHostKey = process.env.REACT_APP_imgbb_key;
-  console.log(imageHostKey);
+  // const imageHostKey = process.env.REACT_APP_imgbb_key;
+  // console.log(imageHostKey);
   const handleSignUp = (event) => {
     event.preventDefault();
 
     const form = event.target;
+    const role = form.role.value;
     const name = form.name.value;
     const email = form.email.value;
     const password = form.password.value;
     const confirm = form.confirm.value;
     const image = form.image.files[0];
-    // console.log(name, email, password, confirm, image);
+    console.log(role);
 
     if (password !== confirm) {
       toast.error("Password doesn't match");
@@ -81,9 +82,18 @@ const SignUp = () => {
             className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100"
           >
             <h1 className="text-4xl font-bold text-center mt-7 text-primary">
-              Login now!
+              Sign Up now!
             </h1>
             <div className="card-body">
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text text-black">Your Role</span>
+                </label>
+                <select className="input input-bordered px-2" name="role" id="">
+                  <option selected>buyer</option>
+                  <option>seller</option>
+                </select>
+              </div>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text text-black">Name</span>
@@ -141,6 +151,7 @@ const SignUp = () => {
                   className="input input-bordered"
                 />
               </div>
+              <p>{error}</p>
               <div className="form-control mt-6">
                 <Buttons className="btn btn-primary text-white">
                   Sing Up
