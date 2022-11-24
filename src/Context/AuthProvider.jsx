@@ -30,7 +30,10 @@ const AuthProvider = ({ children }) => {
   //======Name & Image=====//
   const nameAndImageUpload = (name, image) => {
     setLoader(true);
-    return updateProfile(auth, name, image);
+    return updateProfile(auth.currentUser, {
+      displayName: name,
+      photoURL: image,
+    });
   };
 
   //=======Sign in with email pass======//

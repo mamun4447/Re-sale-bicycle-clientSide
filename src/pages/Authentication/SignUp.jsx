@@ -16,7 +16,10 @@ const SignUp = () => {
   } = useContext(AuthContext);
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
+  const imageHostKey = process.env.REACT_APP_imgbb_key;
+  console.log(imageHostKey);
   const handleSignUp = (event) => {
     event.preventDefault();
 
@@ -25,7 +28,7 @@ const SignUp = () => {
     const email = form.email.value;
     const password = form.password.value;
     const confirm = form.confirm.value;
-    const image = form.image.value;
+    const image = form.image.files[0];
     // console.log(name, email, password, confirm, image);
 
     if (password !== confirm) {
@@ -33,18 +36,42 @@ const SignUp = () => {
       return;
     }
 
+    const formData = new FormData();
+    formData.append("image", image);
+    const url = `https://api.imgbb.com/1/upload?key=1b41abcbd3e3a0a9277f75dc7cb38414`;
+    fetch(url, {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((imgData) => setImageUrl(imgData.data.url));
+
     handleSignUpWithEmailPassword(email, password)
       .then((user) => {
-        console.log(user);
+        console.log(user.user);
+        handleNameAndImage(name, imageUrl);
         setError("");
         toast.success("User Created successfully!");
         navigate("/");
       })
       .then((error) => {
         console.error(error);
-        setError(error.message);
+        setError(error?.message);
       });
   };
+
+  //===nameAndImageUpload===/
+  const handleNameAndImage = (name, imageUrl) => {
+    nameAndImageUpload(name, imageUrl)
+      .then((result) => {
+        setError("");
+      })
+      .then((error) => {
+        setError(error?.message);
+      });
+  };
+
+  //====Upload user to database====//
   return (
     <div>
       <div className=" min-h-screen">
@@ -150,6 +177,6 @@ const SignUp = () => {
       </div>
     </div>
   );
-};
+};;;;;;;
 
 export default SignUp;
