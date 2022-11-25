@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import logo from "../assets/logo.gif";
 import Buttons from "../Components/Buttons";
 import { AuthContext } from "../Context/AuthProvider";
+import CategoryHooks from "../useHooks/CategoryHooks";
 
 const NavBar = () => {
+  const [categories] = CategoryHooks();
   const { user, LogOut } = useContext(AuthContext);
   return (
     <div className="">
@@ -48,12 +50,11 @@ const NavBar = () => {
                   </svg>
                 </Link>
                 <ul className="p-2">
-                  <li>
-                    <Link>Submenu 1</Link>
-                  </li>
-                  <li>
-                    <Link>Submenu 2</Link>
-                  </li>
+                  {categories.map((category) => (
+                    <li>
+                      <Link>{category.name}</Link>
+                    </li>
+                  ))}
                 </ul>
               </li>
               <li>
@@ -76,7 +77,7 @@ const NavBar = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal p-0">
             <li>
-              <Link>Home</Link>
+              <Link to="/">Home</Link>
             </li>
             <li tabIndex={0}>
               <Link>
@@ -91,17 +92,21 @@ const NavBar = () => {
                   <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
                 </svg>
               </Link>
-              <ul className="p-2">
-                <li>
-                  <Link>Submenu 1</Link>
-                </li>
-                <li>
-                  <Link>Submenu 2</Link>
-                </li>
+              <ul className="p-2 bg-slate-100">
+                {categories.map((category) => (
+                  <li key={category._id}>
+                    <Link to={`/categories/${category._id}`}>
+                      {category.name}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </li>
             <li>
-              <Link>Blogs</Link>
+              <Link to="/dashboard">Dashboard</Link>
+            </li>
+            <li>
+              <Link to="/blogs">Blogs</Link>
             </li>
           </ul>
         </div>
