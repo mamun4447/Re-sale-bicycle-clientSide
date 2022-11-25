@@ -4,7 +4,7 @@ import SideNav from "../pages/Dashboard/SideNav";
 
 const Dashboard = () => {
   return (
-    <div>
+    <div className="flex">
       <SideNav />
       <Outlet />
     </div>

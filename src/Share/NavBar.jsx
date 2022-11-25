@@ -51,7 +51,7 @@ const NavBar = () => {
                 </Link>
                 <ul className="p-2">
                   {categories.map((category) => (
-                    <li>
+                    <li key={category._id}>
                       <Link>{category.name}</Link>
                     </li>
                   ))}

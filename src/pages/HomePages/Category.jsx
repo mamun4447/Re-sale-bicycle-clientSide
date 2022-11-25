@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Buttons from "../../Components/Buttons";
+import CategoryHooks from "../../useHooks/CategoryHooks";
 
 const Category = () => {
-  const [categories, setCategories] = useState([]);
-  useEffect(() => {
-    fetch("http://localhost:5000/categories")
-      .then((res) => res.json())
-      .then((data) => setCategories(data));
-  }, []);
+  const [categories] = CategoryHooks();
   return (
     <div className="text-center mt-20">
       <h1 className="text-3xl md:text-5xl">
