@@ -32,6 +32,8 @@ const SignUp = () => {
     const image = form.image.files[0];
     console.log(role);
 
+    const userInfo = { name, email, role };
+
     if (password !== confirm) {
       toast.error("Password doesn't match");
       return;
@@ -50,7 +52,7 @@ const SignUp = () => {
     handleSignUpWithEmailPassword(email, password)
       .then((user) => {
         console.log(user.user);
-        handleNameAndImage(name, imageUrl);
+        handleNameAndImage(name, imageUrl, userInfo);
         setError("");
         toast.success("User Created successfully!");
         navigate("/");
@@ -62,13 +64,31 @@ const SignUp = () => {
   };
 
   //===nameAndImageUpload===/
-  const handleNameAndImage = (name, imageUrl) => {
+  const handleNameAndImage = (name, imageUrl, userInfo) => {
     nameAndImageUpload(name, imageUrl)
       .then((result) => {
         setError("");
+        userDatabaseCreate({ ...userInfo, imageUrl });
       })
       .then((error) => {
         setError(error?.message);
+      });
+  };
+
+  const userDatabaseCreate = (userInfo) => {
+    fetch("http://localhost:5000/users", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(userInfo),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        toast.success("User created!");
+        // getUserToken(email);
+        // setCreatedUserEmail(email);
       });
   };
 
