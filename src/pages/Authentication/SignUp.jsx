@@ -6,6 +6,7 @@ import login from "../../assets/login.json";
 import Lottie from "lottie-react";
 import { AuthContext } from "../../Context/AuthProvider";
 import toast from "react-hot-toast";
+import useToken from "../../Hooks/UseToken";
 
 const SignUp = () => {
   const {
@@ -16,7 +17,10 @@ const SignUp = () => {
   } = useContext(AuthContext);
   const navigate = useNavigate();
   const [error, setError] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState();
+  const [loginUserEmail, setLoginUserEmail] = useState("");
+  const [token] = useToken(loginUserEmail);
+  console.log(user);
 
   // const imageHostKey = process.env.REACT_APP_imgbb_key;
   // console.log(imageHostKey);
@@ -30,7 +34,7 @@ const SignUp = () => {
     const password = form.password.value;
     const confirm = form.confirm.value;
     const image = form.image.files[0];
-    console.log(role);
+    // console.log(role);
 
     const userInfo = { name, email, role };
 
@@ -39,6 +43,7 @@ const SignUp = () => {
       return;
     }
 
+    //====Image Upload====//
     const formData = new FormData();
     formData.append("image", image);
     const url = `https://api.imgbb.com/1/upload?key=1b41abcbd3e3a0a9277f75dc7cb38414`;
@@ -49,10 +54,12 @@ const SignUp = () => {
       .then((res) => res.json())
       .then((imgData) => setImageUrl(imgData.data.url));
 
+    //==handle Sign Up==//
     handleSignUpWithEmailPassword(email, password)
-      .then((user) => {
-        console.log(user.user);
-        handleNameAndImage(name, imageUrl, userInfo);
+      .then((result) => {
+        console.log(result.user);
+        handleNameAndImage(name, imageUrl, userInfo, email);
+
         setError("");
         toast.success("User Created successfully!");
         navigate("/");
@@ -64,18 +71,19 @@ const SignUp = () => {
   };
 
   //===nameAndImageUpload===/
-  const handleNameAndImage = (name, imageUrl, userInfo) => {
+  const handleNameAndImage = (name, imageUrl, userInfo, email) => {
     nameAndImageUpload(name, imageUrl)
       .then((result) => {
         setError("");
-        userDatabaseCreate({ ...userInfo, imageUrl });
+        userDatabaseCreate({ ...userInfo, imageUrl }, email);
       })
       .then((error) => {
         setError(error?.message);
       });
   };
 
-  const userDatabaseCreate = (userInfo) => {
+  //====User data upload on database====//
+  const userDatabaseCreate = (userInfo, email) => {
     fetch("http://localhost:5000/users", {
       method: "POST",
       headers: {
@@ -87,12 +95,12 @@ const SignUp = () => {
       .then((data) => {
         console.log(data);
         toast.success("User created!");
+        setLoginUserEmail(email);
         // getUserToken(email);
         // setCreatedUserEmail(email);
       });
   };
 
-  //====Upload user to database====//
   return (
     <div>
       <div className=" min-h-screen">
@@ -208,6 +216,6 @@ const SignUp = () => {
       </div>
     </div>
   );
-};;;;;;;
+};;;;;;;;;
 
 export default SignUp;

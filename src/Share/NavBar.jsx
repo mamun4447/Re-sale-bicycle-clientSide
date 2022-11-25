@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import logo from "../assets/logo.gif";
 import Buttons from "../Components/Buttons";
 import { AuthContext } from "../Context/AuthProvider";
-import CategoryHooks from "../useHooks/CategoryHooks";
+import CategoryHooks from "../Hooks/CategoryHooks";
 
 const NavBar = () => {
   const [categories] = CategoryHooks();

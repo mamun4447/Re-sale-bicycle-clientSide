@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Buttons from "../../Components/Buttons";
-import CategoryHooks from "../../useHooks/CategoryHooks";
+import CategoryHooks from "../../Hooks/CategoryHooks";
 
 const Category = () => {
   const [categories] = CategoryHooks();

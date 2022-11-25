@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 import Lottie from "lottie-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,12 +6,21 @@ import login from "../../assets/login.json";
 import Buttons from "../../Components/Buttons";
 import { AuthContext } from "../../Context/AuthProvider";
 import toast from "react-hot-toast";
+import useToken from "../../Hooks/UseToken";
 // import { useForm } from "react-hook-form";
 
 const LogIn = () => {
   const { user, logInWithEmailPass, loginWithGoogle } = useContext(AuthContext);
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const [logInEmail, setLogInEmail] = useState();
+  const [token] = useToken(logInEmail);
+  console.log(token);
+  // console.log(user);
+
+  // if (token) {
+  //   return navigate("/");
+  // }
 
   const handleLogin = (event) => {
     event.preventDefault();
@@ -23,8 +32,9 @@ const LogIn = () => {
 
     logInWithEmailPass(email, password)
       .then((result) => {
-        // console.log(result.user);
         toast.success("User Log in Successful!");
+        setLogInEmail(email);
+
         setError("");
         navigate("/");
       })
@@ -33,6 +43,7 @@ const LogIn = () => {
         // console.error(error.Error);
       });
   };
+
   return (
     <div>
       <div className=" min-h-screen mt-16">
