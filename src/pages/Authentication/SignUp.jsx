@@ -18,9 +18,8 @@ const SignUp = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [imageUrl, setImageUrl] = useState();
-  const [loginUserEmail, setLoginUserEmail] = useState("");
-  const [token] = useToken(loginUserEmail);
-  console.log(user);
+  const [token, setToken] = useState();
+  console.log(token);
 
   // const imageHostKey = process.env.REACT_APP_imgbb_key;
   // console.log(imageHostKey);
@@ -61,7 +60,6 @@ const SignUp = () => {
         handleNameAndImage(name, imageUrl, userInfo, email);
 
         setError("");
-        toast.success("User Created successfully!");
         navigate("/");
       })
       .then((error) => {
@@ -94,8 +92,20 @@ const SignUp = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        toast.success("User created!");
-        setLoginUserEmail(email);
+        if (data.acknowledged) {
+          fetch(`http://localhost:5000/jwt?email=${email}`)
+            .then((res) => res.json())
+            .then((data) => {
+              console.log(data);
+              if (data.accessToken) {
+                localStorage.setItem("accessToken", data.accessToken);
+                setToken(data.accessToken);
+              }
+            });
+          toast.success("User created!");
+        } else {
+          toast.error("Can not upload to database!");
+        }
         // getUserToken(email);
         // setCreatedUserEmail(email);
       });
@@ -119,7 +129,7 @@ const SignUp = () => {
                 </label>
                 <select className="input input-bordered px-2" name="role" id="">
                   <option selected>buyer</option>
-                  <option>seller</option>
+                  <option>saler</option>
                 </select>
               </div>
               <div className="form-control">
@@ -164,7 +174,7 @@ const SignUp = () => {
                   placeholder="password"
                   className="input input-bordered"
                 />
-                {/* <p className="text-red-500">{error}</p> */}
+                <p className="text-red-500">{error}</p>
               </div>
               <div className="form-control">
                 <label className="label">
@@ -216,6 +226,6 @@ const SignUp = () => {
       </div>
     </div>
   );
-};;;;;;;;;
+};;;;;;;;;;
 
 export default SignUp;

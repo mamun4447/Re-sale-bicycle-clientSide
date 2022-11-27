@@ -13,8 +13,7 @@ const LogIn = () => {
   const { user, logInWithEmailPass, loginWithGoogle } = useContext(AuthContext);
   const navigate = useNavigate();
   const [error, setError] = useState("");
-  const [logInEmail, setLogInEmail] = useState();
-  const [token] = useToken(logInEmail);
+  const [token, setToken] = useState();
   console.log(token);
   // console.log(user);
 
@@ -33,7 +32,15 @@ const LogIn = () => {
     logInWithEmailPass(email, password)
       .then((result) => {
         toast.success("User Log in Successful!");
-        setLogInEmail(email);
+        fetch(`http://localhost:5000/jwt?email=${email}`)
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            if (data.accessToken) {
+              localStorage.setItem("accessToken", data.accessToken);
+              setToken(data.accessToken);
+            }
+          });
 
         setError("");
         navigate("/");

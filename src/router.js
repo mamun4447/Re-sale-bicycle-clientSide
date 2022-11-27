@@ -1,8 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 import Dashboard from "./Layouts/Dashboard";
 import Main from "./Layouts/Main";
+import ErrorPage from "./pages/Authentication/ErrorPage";
 import LogIn from "./pages/Authentication/LogIn";
 import SignUp from "./pages/Authentication/SignUp";
+import AddProduct from "./pages/Dashboard/AddProduct";
 import BuyersList from "./pages/Dashboard/BuyersList";
 import DashboardHome from "./pages/Dashboard/DashboardHome";
 import MyProducts from "./pages/Dashboard/MyProducts";
@@ -16,6 +18,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
@@ -33,13 +36,18 @@ const router = createBrowserRouter([
         path: "/categories/:id",
         element: <Products />,
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/categories/${params.id}`),
+          fetch(`http://localhost:5000/categories/${params.id}`, {
+            headers: {
+              authorization: `bearer ${localStorage.getItem("accessToken")}`,
+            },
+          }),
       },
     ],
   },
   {
     path: "/dashboard",
     element: <Dashboard />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/dashboard",
@@ -60,6 +68,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/reported",
         element: <Reported />,
+      },
+      {
+        path: "/dashboard/add-products",
+        element: <AddProduct />,
       },
     ],
   },

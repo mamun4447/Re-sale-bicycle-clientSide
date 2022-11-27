@@ -8,6 +8,12 @@ import CategoryHooks from "../Hooks/CategoryHooks";
 const NavBar = () => {
   const [categories] = CategoryHooks();
   const { user, LogOut } = useContext(AuthContext);
+
+  const handleLogOut = (event) => {
+    event.preventDefault();
+    localStorage.removeItem("accessToken");
+    return LogOut();
+  };
   return (
     <div className="">
       <nav className="navbar bg-base-100 ">
@@ -112,7 +118,7 @@ const NavBar = () => {
         </div>
         <div className="navbar-end">
           {user?.email ? (
-            <p onClick={LogOut}>
+            <p onClick={handleLogOut}>
               <Buttons>Log Out</Buttons>
             </p>
           ) : (
