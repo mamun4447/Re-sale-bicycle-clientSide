@@ -8,9 +8,13 @@ import { AuthContext } from "../../Context/AuthProvider";
 const SideNav = () => {
   const { user } = useContext(AuthContext);
   const [role, setRole] = useState();
+  const [userInfo, setUserInfo] = useState();
   fetch(`http://localhost:5000/users/role/${user?.email}`)
     .then((res) => res.json())
-    .then((data) => setRole(data));
+    .then((data) => {
+      setRole(data?.role);
+      setUserInfo(data);
+    });
   return (
     <div>
       <div className="flex flex-col w-16  md:w-64 h-screen py-8 bg-white border-r dark:bg-gray-900 dark:border-gray-700">
@@ -26,16 +30,25 @@ const SideNav = () => {
         </Link>
 
         <div className="flex flex-col items-center mt-6 -mx-2">
-          <img
-            className="object-cover w-12 h-12 md:w-24 md:h-24 mx-2 rounded-full"
-            src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
-            alt="avatar"
-          />
+          {userInfo?.imageUrl ? (
+            <img
+              className="object-cover w-12 h-12 md:w-24 md:h-24 mx-2 rounded-full"
+              src={userInfo.imageUrl}
+              alt=""
+            />
+          ) : (
+            <img
+              className="object-cover w-12 h-12 md:w-24 md:h-24 mx-2 rounded-full"
+              src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+              alt="avatar"
+            />
+          )}
+
           <h4 className="mx-2 mt-2 font-medium text-gray-800 dark:text-gray-200 hover:underline hidden md:block">
-            John Doe
+            {userInfo?.name}
           </h4>
           <p className="mx-2 mt-1 text-sm font-medium text-gray-600 dark:text-gray-400 hover:underline hidden md:block">
-            john@example.com
+            {userInfo?.email}
           </p>
         </div>
 
@@ -65,7 +78,7 @@ const SideNav = () => {
             </Link>
 
             {/* ====Admin==== */}
-            {role?.role === "admin" && (
+            {role === "admin" && (
               <>
                 {/* {console.log(role)} */}
                 {/* ====Buyers==== */}
@@ -152,7 +165,7 @@ const SideNav = () => {
             )}
 
             {/* ====Saler==== */}
-            {role?.role === "saler" && (
+            {role === "saler" && (
               <>
                 <Link
                   className="flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-300 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import cycleImage from "../../assets/defaultCycle.jpg";
 
 const SingleProduct = ({ product, handleReport }) => {
   return (
@@ -9,7 +10,15 @@ const SingleProduct = ({ product, handleReport }) => {
         className="overflow-hidden shadow-lg rounded-lg cursor-pointer m-auto"
       >
         <Link href="#" className="w-full block h-full">
-          <img alt="" src={product.image} className=" w-full object-cover" />
+          {product?.image ? (
+            <img alt="" src={product.image} className=" w-full object-cover" />
+          ) : (
+            <img
+              alt=""
+              src={cycleImage}
+              className="w-full max-h-60 object-cover"
+            />
+          )}
           <div className="bg-white dark:bg-gray-800 w-full p-4">
             <p className="text-indigo-500 text-sm font-medium">
               {product.location}

@@ -63,6 +63,11 @@ const NavBar = () => {
                   ))}
                 </ul>
               </li>
+              {user?.email && (
+                <li>
+                  <Link to="/dashboard">Dashboard</Link>
+                </li>
+              )}
               <li>
                 <Link>Blogs</Link>
               </li>
@@ -108,9 +113,11 @@ const NavBar = () => {
                 ))}
               </ul>
             </li>
-            <li>
-              <Link to="/dashboard">Dashboard</Link>
-            </li>
+            {user?.email && (
+              <li>
+                <Link to="/dashboard">Dashboard</Link>
+              </li>
+            )}
             <li>
               <Link to="/blogs">Blogs</Link>
             </li>
