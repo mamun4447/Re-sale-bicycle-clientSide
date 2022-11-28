@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
+import SmallSpinner from "../../Components/SmallSpinner";
 import { AuthContext } from "../../Context/AuthProvider";
 import CategoryHooks from "../../Hooks/CategoryHooks";
 
 const AddProduct = () => {
-  const { user } = useContext(AuthContext);
+  const { user, loader } = useContext(AuthContext);
   const [categories] = CategoryHooks();
   const [imageUrl, setImageUrl] = useState();
 
@@ -189,7 +190,7 @@ const AddProduct = () => {
 
           <div className="flex justify-end mt-6">
             <button className="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">
-              Save
+              {loader ? <SmallSpinner /> : <p>Submit</p>}
             </button>
           </div>
         </form>

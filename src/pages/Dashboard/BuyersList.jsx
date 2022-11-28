@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 const BuyersList = () => {
   const [buyers, setBuyers] = useState();
@@ -6,6 +7,23 @@ const BuyersList = () => {
   fetch(`http://localhost:5000/users/${"buyer"}`)
     .then((res) => res.json())
     .then((data) => setBuyers(data));
+
+  const handleDelete = (id) => {
+    const action = window.confirm("Are you sure for deleteting?");
+
+    if (action) {
+      fetch(`http://localhost:5000/users/${id}`, {
+        method: "DELETE",
+        headers: {
+          authorization: `bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          toast.success(data?.message);
+        });
+    }
+  };
   return (
     <div className="w-full mt-10">
       <table className="table w-full ml-5">
@@ -37,7 +55,10 @@ const BuyersList = () => {
               </td>
               <td>{buyer.email}</td>
               <td>
-                <button className="btn bg-error border-none btn-xs">
+                <button
+                  onClick={() => handleDelete(buyer._id)}
+                  className="btn btn-sm btn-error"
+                >
                   Delete
                 </button>
               </td>

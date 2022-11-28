@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useEffect } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 import Buttons from "../../Components/Buttons";
+import Spinner from "../../Components/Spinner";
+import { AuthContext } from "../../Context/AuthProvider";
 import BookingModal from "./BookingModal";
 import SingleProduct from "./SingleProduct";
 
 const Products = () => {
   const products = useLoaderData();
   console.log(products);
+
+  const { loader } = useContext(AuthContext);
+
+  if (loader) {
+    return <Spinner />;
+  }
 
   //===Booking===//
   const handleBooking = (id) => {

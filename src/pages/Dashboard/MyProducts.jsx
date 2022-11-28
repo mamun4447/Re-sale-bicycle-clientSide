@@ -4,11 +4,31 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { AuthContext } from "../../Context/AuthProvider";
 import image from "../../assets/defaultCycle.jpg";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const MyProducts = () => {
-  const { user } = useContext(AuthContext);
+  const { user, LogOut } = useContext(AuthContext);
 
   const [products, setProducts] = useState();
+  const navigate = useNavigate();
+
+  const handleBoost = (id) => {
+    const boostInfo = products.find((product) => product._id === id);
+
+    fetch(`http://localhost:5000/boost`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        authorization: `bearer ${localStorage.getItem("accessToken")}`,
+      },
+      body: JSON.stringify(boostInfo),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        toast.success(data.message);
+      });
+  };
 
   useEffect(() => {
     fetch(`http://localhost:5000/my-products/${user?.email}`, {
@@ -18,10 +38,15 @@ const MyProducts = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        setProducts(data);
+        if (data?.message) {
+          toast.error(data.message);
+          navigate("/");
+          LogOut();
+        } else {
+          setProducts(data);
+        }
       });
-  }, [user?.email]);
+  }, [navigate, LogOut, user?.email]);
   return (
     <div className="w-full ml-5 mt-10">
       <div className="overflow-x-auto w-full">
@@ -35,8 +60,8 @@ const MyProducts = () => {
                 </label>
               </th>
               <th>Name</th>
-              <th>Job</th>
-              <th>Favorite Color</th>
+              <th>Details</th>
+              <th>Action</th>
               <th></th>
             </tr>
           </thead>
@@ -67,35 +92,36 @@ const MyProducts = () => {
                       </div>
                     </div>
                     <div>
-                      <div className="font-bold">Hart Hagerty</div>
-                      <div className="text-sm opacity-50">United States</div>
+                      <div className="font-bold">{product?.name}</div>
+                      <div className="text-sm opacity-50">
+                        {product?.location}
+                      </div>
                     </div>
                   </div>
                 </td>
                 <td>
-                  Zemlak, Daniel and Leannon
+                  {product.category}
                   <br />
                   <span className="badge badge-ghost badge-sm">
-                    Desktop Support Technician
+                    Price: ${product.sale_price}
                   </span>
                 </td>
-                <td>Purple</td>
-                <th>
-                  <button className="btn btn-ghost btn-xs">details</button>
-                </th>
+                {product?.sponser === "false" && (
+                  <td>
+                    <button
+                      onClick={() => handleBoost(product._id)}
+                      className="btn btn-xs"
+                    >
+                      Boost
+                    </button>
+                  </td>
+                )}
+                <td>
+                  <button className="btn btn-error btn-xs">Delete</button>
+                </td>
               </tr>
             ))}
           </tbody>
-          {/* <!-- foot --> */}
-          <tfoot>
-            <tr>
-              <th></th>
-              <th>Name</th>
-              <th>Job</th>
-              <th>Favorite Color</th>
-              <th></th>
-            </tr>
-          </tfoot>
         </table>
       </div>
     </div>

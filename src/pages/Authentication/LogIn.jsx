@@ -7,19 +7,24 @@ import Buttons from "../../Components/Buttons";
 import { AuthContext } from "../../Context/AuthProvider";
 import toast from "react-hot-toast";
 import useToken from "../../Hooks/UseToken";
+import { GoogleAuthProvider } from "firebase/auth";
+import SmallSpinner from "../../Components/SmallSpinner";
 // import { useForm } from "react-hook-form";
 
 const LogIn = () => {
-  const { user, logInWithEmailPass, loginWithGoogle } = useContext(AuthContext);
+  const { user, loader, logInWithEmailPass, loginWithGoogle } =
+    useContext(AuthContext);
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [token, setToken] = useState();
-  console.log(token);
+  const provider = new GoogleAuthProvider();
+
+  // console.log(token);
   // console.log(user);
 
-  // if (token) {
-  //   return navigate("/");
-  // }
+  if (token) {
+    return navigate("/");
+  }
 
   const handleLogin = (event) => {
     event.preventDefault();
@@ -49,6 +54,16 @@ const LogIn = () => {
         setError(error.message);
         // console.error(error.Error);
       });
+  };
+
+  const handleGoogle = (event) => {
+    event.preventDefault();
+
+    loginWithGoogle(provider)
+      .then((res) => {
+        toast.success("Loged In successfully!");
+      })
+      .then((error) => toast.error(error?.message));
   };
 
   return (
@@ -95,7 +110,9 @@ const LogIn = () => {
                 </label>
               </div>
               <div className="form-control mt-6">
-                <Buttons className="btn btn-accent">Login</Buttons>
+                <Buttons className="btn btn-accent">
+                  {loader ? <SmallSpinner /> : <p>Login</p>}
+                </Buttons>
               </div>
               <p>
                 Don't have an account?{" "}
@@ -110,7 +127,7 @@ const LogIn = () => {
               {/* ------------Social Media SignIn----------- */}
               <div className="flex items-center justify-center m-2 text-3xl gap-4">
                 <button
-                  //   onClick={handleGoogleLogin}
+                  onClick={handleGoogle}
                   className="bg-slate-200 p-2 rounded-full"
                 >
                   <FaGoogle />
@@ -128,6 +145,6 @@ const LogIn = () => {
       </div>
     </div>
   );
-};
+};;;;;;;;;;;;;;;
 
 export default LogIn;

@@ -7,10 +7,13 @@ import Lottie from "lottie-react";
 import { AuthContext } from "../../Context/AuthProvider";
 import toast from "react-hot-toast";
 import useToken from "../../Hooks/UseToken";
+import SmallSpinner from "../../Components/SmallSpinner";
+import { GoogleAuthProvider } from "firebase/auth";
 
 const SignUp = () => {
   const {
     user,
+    loader,
     handleSignUpWithEmailPassword,
     nameAndImageUpload,
     loginWithGoogle,
@@ -19,7 +22,11 @@ const SignUp = () => {
   const [error, setError] = useState("");
   const [imageUrl, setImageUrl] = useState();
   const [token, setToken] = useState();
-  console.log(token);
+  const provider = new GoogleAuthProvider();
+
+  if (token) {
+    return navigate("/");
+  }
 
   // const imageHostKey = process.env.REACT_APP_imgbb_key;
   // console.log(imageHostKey);
@@ -78,6 +85,17 @@ const SignUp = () => {
       .then((error) => {
         setError(error?.message);
       });
+  };
+
+  //====Google SignIn====//
+  const handleGoogleSignIn = (event) => {
+    event.preventDefault();
+
+    loginWithGoogle(provider)
+      .then((res) => {
+        toast.success("Loged In successfully!");
+      })
+      .then((error) => toast.error(error?.message));
   };
 
   //====User data upload on database====//
@@ -192,7 +210,7 @@ const SignUp = () => {
               <p>{error}</p>
               <div className="form-control mt-6">
                 <Buttons className="btn btn-primary text-white">
-                  Sing Up
+                  {loader ? <SmallSpinner /> : <p>Sign Up</p>}
                 </Buttons>
               </div>
               <p>
@@ -208,7 +226,7 @@ const SignUp = () => {
               {/* ------------Social Media SignIn----------- */}
               <div className="flex items-center justify-center m-2 text-3xl gap-4">
                 <button
-                  //   onClick={handleGoogleLogin}
+                  onClick={handleGoogleSignIn}
                   className="bg-slate-200 p-2 rounded-full"
                 >
                   <FaGoogle />
