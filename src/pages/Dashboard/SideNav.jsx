@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { useEffect } from "react";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.gif";
@@ -8,13 +9,14 @@ import { AuthContext } from "../../Context/AuthProvider";
 const SideNav = () => {
   const { user } = useContext(AuthContext);
   const [role, setRole] = useState();
-  const [userInfo, setUserInfo] = useState();
-  fetch(`http://localhost:5000/users/role/${user?.email}`)
-    .then((res) => res.json())
-    .then((data) => {
-      setRole(data?.role);
-      setUserInfo(data);
-    });
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/users/role/${user?.email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setRole(data?.role);
+      });
+  }, [user?.email]);
   return (
     <div>
       <div className="flex flex-col w-16  md:w-64 h-screen py-8 bg-white border-r dark:bg-gray-900 dark:border-gray-700">
@@ -30,10 +32,10 @@ const SideNav = () => {
         </Link>
 
         <div className="flex flex-col items-center mt-6 -mx-2">
-          {userInfo?.imageUrl ? (
+          {user?.photoUrl ? (
             <img
               className="object-cover w-12 h-12 md:w-24 md:h-24 mx-2 rounded-full"
-              src={userInfo.imageUrl}
+              src={user?.photoUrl}
               alt=""
             />
           ) : (
@@ -45,10 +47,10 @@ const SideNav = () => {
           )}
 
           <h4 className="mx-2 mt-2 font-medium text-gray-800 dark:text-gray-200 hover:underline hidden md:block">
-            {userInfo?.name}
+            {user?.displayName}
           </h4>
           <p className="mx-2 mt-1 text-sm font-medium text-gray-600 dark:text-gray-400 hover:underline hidden md:block">
-            {userInfo?.email}
+            {user?.email}
           </p>
         </div>
 

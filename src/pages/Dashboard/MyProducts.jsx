@@ -42,7 +42,7 @@ const MyProducts = () => {
           </thead>
           <tbody>
             {/* <!-- row 1 --> */}
-            {products.map((product) => (
+            {products?.map((product) => (
               <tr>
                 <th>
                   <label>

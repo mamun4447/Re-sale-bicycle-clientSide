@@ -6,7 +6,7 @@ import CategoryHooks from "../../Hooks/CategoryHooks";
 const Category = () => {
   const [categories] = CategoryHooks();
   return (
-    <div className="text-center mt-20 bg-slate-50 p-2">
+    <div className="text-center mt-20 bg-slate-50 p-2 py-10">
       <h1 className="text-3xl md:text-5xl">
         <span className="text-[#297B77]">Brand</span> Name
       </h1>
@@ -29,7 +29,6 @@ const Category = () => {
           </Link>
         ))}
       </div>
-      <Buttons>Add Categories</Buttons>
     </div>
   );
 };

@@ -10,7 +10,7 @@ import DashboardHome from "./pages/Dashboard/DashboardHome";
 import MyProducts from "./pages/Dashboard/MyProducts";
 import Reported from "./pages/Dashboard/Reported";
 import SalersList from "./pages/Dashboard/SalersList";
-import SideNav from "./pages/Dashboard/SideNav";
+import Blog from "./pages/HomePages/Blog";
 import Home from "./pages/HomePages/Home";
 import Products from "./pages/Products/Products";
 
@@ -23,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/blogs",
+        element: <Blog />,
       },
       {
         path: "/login",
