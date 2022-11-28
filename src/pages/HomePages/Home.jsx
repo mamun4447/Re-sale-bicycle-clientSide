@@ -9,9 +9,6 @@ import SendMail from "./SendMail";
 const Home = () => {
   const { loader } = useContext(AuthContext);
 
-  if (loader) {
-    return <Spinner />;
-  }
   return (
     <div>
       <Hero />

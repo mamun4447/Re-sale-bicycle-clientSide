@@ -4,7 +4,7 @@ import { useState } from "react";
 const Advertise = () => {
   const [products, setProducts] = useState();
 
-  fetch("http://localhost:5000/boost")
+  fetch("https://cycle-server.vercel.app/boost")
     .then((res) => res.json())
     .then((data) => {
       console.log(data);

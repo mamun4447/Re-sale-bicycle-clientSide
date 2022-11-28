@@ -37,7 +37,7 @@ const LogIn = () => {
     logInWithEmailPass(email, password)
       .then((result) => {
         toast.success("User Log in Successful!");
-        fetch(`http://localhost:5000/jwt?email=${email}`)
+        fetch(`https://cycle-server.vercel.app/jwt?email=${email}`)
           .then((res) => res.json())
           .then((data) => {
             console.log(data);

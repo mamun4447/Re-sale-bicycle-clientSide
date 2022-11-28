@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 const SalersList = () => {
   const [salers, setSallers] = useState();
 
-  fetch(`http://localhost:5000/users/${"saler"}`)
+  fetch(`https://cycle-server.vercel.app/users/${"saler"}`)
     .then((res) => res.json())
     .then((data) => setSallers(data));
 
@@ -14,7 +14,7 @@ const SalersList = () => {
     const action = window.confirm("Are you sure for deleteting?");
 
     if (action) {
-      fetch(`http://localhost:5000/users/${id}`, {
+      fetch(`https://cycle-server.vercel.app/users/${id}`, {
         method: "DELETE",
         headers: {
           authorization: `bearer ${localStorage.getItem("accessToken")}`,

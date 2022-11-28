@@ -16,7 +16,7 @@ const MyProducts = () => {
   const handleBoost = (id) => {
     const boostInfo = products.find((product) => product._id === id);
 
-    fetch(`http://localhost:5000/boost`, {
+    fetch(`https://cycle-server.vercel.app/boost`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -31,7 +31,7 @@ const MyProducts = () => {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:5000/my-products/${user?.email}`, {
+    fetch(`https://cycle-server.vercel.app/my-products/${user?.email}`, {
       headers: {
         authorization: `bearer ${localStorage.getItem("accessToken")}`,
       },

@@ -74,7 +74,7 @@ const NavBar = () => {
             </ul>
           </div>
 
-          <Link to="https://flowbite.com/" className="flex items-center">
+          <Link to="/" className="flex items-center">
             <img
               src={logo}
               className="h-10 w-12 mr-3 sm:h-9"

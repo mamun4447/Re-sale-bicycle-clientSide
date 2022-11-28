@@ -19,7 +19,7 @@ const Products = () => {
 
   //===Booking===//
   const handleBooking = (id) => {
-    fetch(`http://localhost:5000/products/${id}`, {
+    fetch(`https://cycle-server.vercel.app/products/${id}`, {
       method: "PATCH",
       headers: {
         "content-type": "aplication/json",
@@ -32,7 +32,7 @@ const Products = () => {
   };
   //===Repost===//w
   const handleReport = (id) => {
-    fetch(`http://localhost:5000/report-product/${id}`, {
+    fetch(`https://cycle-server.vercel.app/report-product/${id}`, {
       method: "PATCH",
       headers: {
         "content-type": "aplication/json",

@@ -55,7 +55,7 @@ const AddProduct = () => {
       report: "false",
       sponser: "false",
     };
-    fetch("http://localhost:5000/products", {
+    fetch("https://cycle-server.vercel.app/products", {
       method: "POST",
       headers: {
         "content-type": "application/json",

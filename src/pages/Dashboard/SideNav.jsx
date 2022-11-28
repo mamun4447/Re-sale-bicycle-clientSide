@@ -11,7 +11,7 @@ const SideNav = () => {
   const [role, setRole] = useState();
 
   useEffect(() => {
-    fetch(`http://localhost:5000/users/role/${user?.email}`)
+    fetch(`https://cycle-server.vercel.app/users/role/${user?.email}`)
       .then((res) => res.json())
       .then((data) => {
         setRole(data?.role);

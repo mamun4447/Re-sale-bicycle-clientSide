@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 const CategoryHooks = () => {
   const [categories, setCategories] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:5000/categories", {
+    fetch("https://cycle-server.vercel.app/categories", {
       headers: {
         authorization: `bearer ${localStorage.getItem("accessToken")}`,
       },

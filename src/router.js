@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import PrivateRoute from "./Components/PrivateRoute";
 import Dashboard from "./Layouts/Dashboard";
 import Main from "./Layouts/Main";
 import ErrorPage from "./pages/Authentication/ErrorPage";
@@ -38,9 +39,13 @@ const router = createBrowserRouter([
       },
       {
         path: "/categories/:id",
-        element: <Products />,
+        element: (
+          <PrivateRoute>
+            <Products />
+          </PrivateRoute>
+        ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/categories/${params.id}`, {
+          fetch(`https://cycle-server.vercel.app/categories/${params.id}`, {
             headers: {
               authorization: `bearer ${localStorage.getItem("accessToken")}`,
             },

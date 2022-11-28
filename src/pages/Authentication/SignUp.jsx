@@ -100,7 +100,7 @@ const SignUp = () => {
 
   //====User data upload on database====//
   const userDatabaseCreate = (userInfo, email) => {
-    fetch("http://localhost:5000/users", {
+    fetch("https://cycle-server.vercel.app/users", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -111,7 +111,7 @@ const SignUp = () => {
       .then((data) => {
         console.log(data);
         if (data.acknowledged) {
-          fetch(`http://localhost:5000/jwt?email=${email}`)
+          fetch(`https://cycle-server.vercel.app/jwt?email=${email}`)
             .then((res) => res.json())
             .then((data) => {
               console.log(data);
