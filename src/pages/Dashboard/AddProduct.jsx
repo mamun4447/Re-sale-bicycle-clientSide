@@ -35,7 +35,7 @@ const AddProduct = () => {
       body: formData,
     })
       .then((res) => res.json())
-      .then((imgData) => setImageUrl(imgData.data.url));
+      .then((imgData) => setImageUrl(imgData?.data?.url));
 
     const productInfo = {
       category,

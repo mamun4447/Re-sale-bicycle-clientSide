@@ -62,6 +62,7 @@ const LogIn = () => {
     loginWithGoogle(provider)
       .then((res) => {
         toast.success("Loged In successfully!");
+        navigate("/");
       })
       .then((error) => toast.error(error?.message));
   };

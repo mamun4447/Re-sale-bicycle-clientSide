@@ -9,7 +9,7 @@ const SingleProduct = ({ product, handleReport }) => {
         key={product._id}
         className="overflow-hidden shadow-lg rounded-lg cursor-pointer m-auto"
       >
-        <Link href="#" className="w-full block h-full">
+        <div className="w-full block h-full">
           {product?.image ? (
             <img alt="" src={product.image} className=" w-full object-cover" />
           ) : (
@@ -47,7 +47,7 @@ const SingleProduct = ({ product, handleReport }) => {
               </label>
             </div>
           </div>
-        </Link>
+        </div>
       </div>
     </div>
   );
